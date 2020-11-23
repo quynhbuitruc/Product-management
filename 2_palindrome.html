@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaLinDrome?</title>
+</head>
+
+<body>
+    <p>
+        <input type="text" name="" id="content">
+    </p>
+    <p>
+        <button onclick="checkPalindrome()">Check</button>
+    </p>
+    <p id="result"></p>
+    <script>
+        let isPalidrome = true
+
+        function checkPalindrome() {
+            let input = document.getElementById("content").value
+            let len = input.length
+            for (let i = 0; i < (len / 2); i++) {
+                if (input[i] !== input[len - 1 - i]) {
+                    isPalidrome = false
+                }
+            }
+            if (isPalidrome == true) {
+                document.getElementById("result").innerHTML = `${input} is a PALIDROME`
+                document.getElementById("content").value = ""
+            } else {
+                document.getElementById("result").innerHTML = `${input} is NOT a palindrome`
+                document.getElementById("content").value = ""
+                isPalidrome = true
+            }
+        }
+    </script>
+</body>
+
+</html>
