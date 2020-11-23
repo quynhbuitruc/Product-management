@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sản phẩm</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 450px;
+        }
+
+        tr,
+        td {
+            border: 1px solid grey;
+            height: 30px;
+            ;
+            padding: 3px;
+
+        }
+
+        button {
+            background-color: rgb(62, 195, 107);
+            border: none;
+            color: white;
+            padding: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <h3> Thêm sản phẩm mới</h3>
+    <label>
+        Tên:
+        <input type="text" id="newProduct">
+    </label>
+    <label>
+        Giá:
+        <input type="number" id="productPrice">
+    </label>
+    <p><button onclick="addProduct()"> Nhập</button></p>
+    <h3>Danh sách các sản phẩm </h3>
+    <table id="productList">
+        <tr>
+            <td colspan='2' style='font-size: 16px; font: bold;'> Tên sản phẩm </td>
+            <td id='sum' style='text-align: center; color: rgb(170, 49, 49);'> 0 sản phẩm </td>
+        </tr>
+    </table>
+
+    <script>
+        let productList = []
+        let count = 0
+        let table = document.getElementById("productList")
+        let tableHead =
+            "<tr> <td colspan='3' style='font-size: 16px; font: bold;'> Tên sản phẩm </td>" +
+            "<td id='sum' style='text-align: center; color: rgb(170, 49, 49);'> 0 sản phẩm </td> </tr>"
+        let nextID = 0
+        function addProduct() {
+            let productName = document.getElementById("newProduct").value
+            let productPrice = Number(document.getElementById("productPrice").value)
+            productList[count] = {
+                id: nextID++,
+                name: productName,
+                price: productPrice
+            }
+            drawTable()
+            document.getElementById("newProduct").value = ""
+            count++
+        }
+
+        function editProduct(id) {
+            let newProductName = prompt("Nhập lại tên sản phẩm")
+            let newPrice = prompt("Nhập lại giá")
+            for (let i = 0; i < productList.length; i++) {
+                if (productList[i].id == id) {
+                    productList[i].name = newProductName
+                    productList[i].price = newPrice
+                    break
+                }
+            }
+            drawTable()
+        }
+
+        function deleteProduct(index) {
+            let ask = confirm("Bạn thật sự muốn xóa sản phẩm này?")
+            if (ask == true) {
+                let content = productList.splice(index, 1)
+                drawTable()
+                count = productList.length
+            }
+        }
+
+        function drawTable() {
+            table.innerHTML = tableHead
+            for (let i = 0; i < productList.length; i++) {
+                let editButton = "<td style='text-align: center; width: 100px;'> <button onclick='editProduct(" + `${i}` + ")'> Edit </button> </td>"
+                let deleteButton = "<td style='text-align: center; width: 100px;'> <button onclick='deleteProduct(" + `${i}` + ")'> Delete </button> </td> \n"
+                let productName = "<td id='content'>" + productList[i].name + "</td>"
+                let productPrice = "<td id='content'>" + productList[i].price + "</td>"
+                table.innerHTML += "\n " + productName + productPrice + editButton + deleteButton
+            }
+            document.getElementById("sum").innerHTML = productList.length + " sản phẩm"
+        }
+    </script>
+</body>
+
+</html>
